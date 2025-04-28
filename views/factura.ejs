@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Factura</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <h1>Factura</h1>
+
+  <p><strong>Nombre del Cliente:</strong> <%= nombre %></p>
+  <p><strong>Artículo:</strong> <%= articulo %></p>
+  <p><strong>Precio:</strong> RD$<%= precio %></p>
+  <p><strong>Cantidad:</strong> <%= cantidad %></p>
+  <p><strong>Total:</strong> RD$<%= total %></p>
+  <p><strong>Fecha:</strong> <%= fecha %></p>
+
+  <br>
+  <a href="/">Generar otra factura</a>
+</body>
+</html>

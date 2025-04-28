@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard de Facturas</title>
+    <link rel="stylesheet" href="/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Bienvenido a tu Panel de Facturación</h1>
+            <div class="hero-buttons">
+                <a href="/nueva_factura" class="btn">Crear Factura</a>
+                <a href="#" class="btn disabled">Crear Cotización (Pronto)</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gráfico de Ventas -->
+    <section class="grafico">
+        <canvas id="ventasChart"></canvas>
+    </section>
+
+    <!-- Tabla de Facturas -->
+    <section class="facturas">
+        <h2>Facturas Guardadas</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th># Factura</th>
+                    <th>Cliente</th>
+                    <th>Total</th>
+                    <th>Fecha</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% facturas.forEach(factura => { %>
+                    <tr>
+                        <td><%= factura.numero_factura %></td>
+                        <td><%= factura.cliente %></td>
+                        <td>RD$<%= (Number(factura.total_general) || 0).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') %></td>
+                        <td><%= new Date(factura.fecha).toLocaleDateString() %></td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    </section>
+
+    <script>
+        const facturas = <%- JSON.stringify(facturas) %>;
+    
+        const ctx = document.getElementById('ventasChart').getContext('2d');
+        const ventasChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: facturas.map(f => new Date(f.fecha).toLocaleDateString()),
+                datasets: [{
+                    label: 'Ventas (RD$)',
+                    data: facturas.map(f => f.total_general),
+                    backgroundColor: 'rgba(36, 130, 151, 0.7)'
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            } // <-- Closing brace for options
+        }); // <-- Closing brace for ventasChart
+    </script>
+    
+
+</body>
+</html>
